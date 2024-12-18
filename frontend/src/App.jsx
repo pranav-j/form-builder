@@ -6,6 +6,7 @@ function App() {
 	const [inputTypeAttributes, setInputTypeAttributes] = useState({type: inputType});
 	const [fields, setFields] = useState([]);
 	const [formTitle, setFormTitle] = useState("");
+	const [formFields, setFormFields] = useState({});
 
 	const attributeMap = {
 		text: ["label", "name", "required", "placeholder"],
@@ -31,8 +32,13 @@ function App() {
 			title: formTitle,
 			fields
 		};
-		console.log(formData);
-	}, [inputTypeAttributes, fields])
+		setFormFields(formData);
+		// console.log(formDetails);
+	}, [fields, formTitle])
+
+	useEffect(() => {
+		console.log(formFields);
+	}, [formFields])
 
 	return (
 	<div className="m-5">
@@ -59,9 +65,12 @@ function App() {
 						number
 					</button>
 				</div>
-				{inputType && 
+				
 				<div className="w-2/3 flex flex-col justify-center gap-3">
-					
+					<h3>Input from name</h3>
+					<input className="border rounded-md" type="text" placeholder="Form title" value={formTitle} onChange={(e) => setFormTitle(e.target.value)} />
+					{inputType && 
+					<div>
 						<div className="flex flex-col gap-2 border rounded-md p-3">
 							{attributeMap[inputType].map((attribute, idx) => (
 								<div key={idx}>
@@ -80,17 +89,26 @@ function App() {
 								</div>
 							))}
 						</div>
-					
-					<button className="border-none bg-green-200 px-2 py-1 rounded-md w-fit" onClick={addField}>Add this input type</button>
-				
+						<button className="border-none bg-green-200 px-2 py-1 rounded-md w-fit" onClick={addField}>Add this input type</button>
+					</div>
+					}
 				</div>
-				}
+				
 
 			</div>
 
 			<div className="w-1/2 border rounded-2xl p-10">
-				<h3>Input from name</h3>
-				<input className="border rounded-md" type="text" placeholder="Form title" value={formTitle} onChange={(e) => setFormTitle(e.target.value)} />
+				<form action="">
+					<h1 className="font-semibold">{formFields.title}</h1>
+					<form action="">
+						{formFields.fields?.map((field, idx) => (
+							<div key={idx}>
+								<label className="pr-3" htmlFor={field.name}>{field.label} :</label>
+								<input className="border rounded-md" type={field.type} />
+							</div>
+						))}
+					</form>
+				</form>
 				
 			</div>
 		</div>
