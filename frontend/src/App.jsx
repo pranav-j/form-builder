@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./index.css";
+import RenderForm from "./components/form";
 
 function App() {
 	const [inputType, setInputType] = useState("");
@@ -37,7 +38,7 @@ function App() {
 	}, [fields, formTitle])
 
 	useEffect(() => {
-		console.log(formFields);
+		console.log(formFields);		
 	}, [formFields])
 
 	return (
@@ -97,20 +98,7 @@ function App() {
 
 			</div>
 
-			<div className="w-1/2 border rounded-2xl p-10">
-				<form action="">
-					<h1 className="font-semibold">{formFields.title}</h1>
-					<form action="">
-						{formFields.fields?.map((field, idx) => (
-							<div key={idx}>
-								<label className="pr-3" htmlFor={field.name}>{field.label} :</label>
-								<input className="border rounded-md" type={field.type} />
-							</div>
-						))}
-					</form>
-				</form>
-				
-			</div>
+			<RenderForm formFields={formFields} />
 		</div>
 
 
